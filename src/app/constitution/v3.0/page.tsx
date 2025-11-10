@@ -1,12 +1,48 @@
 import fs from "node:fs";
 import path from "node:path";
 import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import type { ReactNode } from "react";
+import SyntaxHighlighter from "react-syntax-highlighter/dist/esm/prism";
 
 export const metadata = {
   title: "AI Digest Constitution v3.0 — Canonical Release",
   description:
     "Checksum-sealed A–J edition of the AI Digest Constitution (Core Control Branch).",
 };
+
+// Минимальный рендерер кода для react-markdown
+type CodeBlockProps = Readonly<{
+  inline?: boolean;
+  className?: string;
+  children?: ReactNode;
+}>;
+
+function CodeBlock({ inline, className, children }: CodeBlockProps) {
+  const match = /language-(\w+)/.exec(className || "");
+  const language = match?.[1] || "";
+
+  if (inline || !match) {
+    return <code className={className}>{children}</code>;
+  }
+
+  const code =
+    typeof children === "string"
+      ? children
+      : Array.isArray(children)
+        ? children.join("")
+        : "";
+
+  return (
+    <SyntaxHighlighter
+      language={language}
+      PreTag="div"
+      wrapLongLines={true}
+    >
+      {code.replace(/\n$/, "")}
+    </SyntaxHighlighter>
+  );
+}
 
 export default function ConstitutionV3() {
   const filePath = path.join(
@@ -21,7 +57,30 @@ export default function ConstitutionV3() {
   return (
     <main className="prose mx-auto px-4 py-10">
       <h1 className="text-center mb-8">AI Digest Constitution v3.0</h1>
-      <Markdown>{source}</Markdown>
+
+      <Markdown
+        remarkPlugins={[remarkGfm]}
+        components={{
+          code: CodeBlock,
+          table: (props) => (
+            <table className="table-auto border-collapse w-full" {...props} />
+          ),
+          th: (props) => (
+            <th
+              className="border px-2 py-1 text-left align-top"
+              {...props}
+            />
+          ),
+          td: (props) => (
+            <td
+              className="border px-2 py-1 align-top"
+              {...props}
+            />
+          ),
+        }}
+      >
+        {source}
+      </Markdown>
 
       <hr className="my-10" />
 
