@@ -2,7 +2,20 @@
 
 echo "You are about to push changes from aiflowlabs-exec (Exec domain frontend)."
 printf "Type EXEC to confirm push: "
-read ANSWER
+
+ANSWER=""
+
+# Пытаемся читать именно с терминала, а не из stdin Git'а
+if [ -t 0 ]; then
+  # stdin — терминал, можно читать напрямую
+  read -r ANSWER
+elif [ -r /dev/tty ]; then
+  # stdin не терминал, но есть /dev/tty
+  read -r ANSWER < /dev/tty
+else
+  echo "Cannot access terminal for confirmation. Aborting push."
+  exit 1
+fi
 
 if [ "$ANSWER" != "EXEC" ]; then
   echo "Push aborted by pre-push hook."

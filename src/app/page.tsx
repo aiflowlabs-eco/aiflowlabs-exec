@@ -13,7 +13,6 @@ export default function HomePage() {
         </p>
         <p className="text-xs text-zinc-500">
           Main public site: aiflowlabs.studio · Exec channel: exec.aiflowlabs.studio
-          Main public site: aiflowlabs.studio · Exec channel: exec.aiflowlabs.studio
         </p>
       </div>
     </main>
