@@ -84,15 +84,25 @@ export default function ConstitutionV3() {
 
       <hr className="my-10" />
 
-      <section>
+      <section className="space-y-4">
         <h2>Canonical Artifacts</h2>
+
+        {/* Кнопка перехода к визуальному рендеру Stage 6 */}
+        <a
+          href="/constitution/v3.0/stage6"
+          className="inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium no-underline hover:bg-gray-100"
+        >
+          <span className="mr-2">📄</span>
+          <span>View Stage 6 in Markdown</span>
+        </a>
+
         <ul className="list-disc ml-6 space-y-2">
           <li>
             <a
               href="/constitution/v3.0/AI_Digest_Constitution_Stage6_Verification_v3.0.md"
               className="text-blue-600 hover:underline"
             >
-              Stage 6 — Verification &amp; Canonical Release Phase
+              Stage 6 — Verification &amp; Canonical Release Phase (raw .md)
             </a>
           </li>
           <li>
