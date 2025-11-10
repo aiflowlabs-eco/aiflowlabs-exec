@@ -1,25 +1,30 @@
 #!/usr/bin/env sh
 
-echo "You are about to push changes from aiflowlabs-exec (Exec domain frontend)."
-printf "Type EXEC to confirm push: "
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
-ANSWER=""
+# EXEC-блок только для main
+if [ "$BRANCH" = "main" ]; then
+  echo "You are about to push changes from aiflowlabs-exec (Exec domain frontend)."
+  printf "Type EXEC to confirm push: "
 
-# Пытаемся читать именно с терминала, а не из stdin Git'а
-if [ -t 0 ]; then
-  # stdin — терминал, можно читать напрямую
-  read -r ANSWER
-elif [ -r /dev/tty ]; then
-  # stdin не терминал, но есть /dev/tty
-  read -r ANSWER < /dev/tty
-else
-  echo "Cannot access terminal for confirmation. Aborting push."
-  exit 1
+  ANSWER=""
+
+  if [ -t 0 ]; then
+    # stdin — терминал
+    read -r ANSWER
+  elif [ -r /dev/tty ]; then
+    # читаем напрямую из терминала
+    read -r ANSWER < /dev/tty
+  else
+    echo "Cannot access terminal for confirmation. Aborting push."
+    exit 1
+  fi
+
+  if [ "$ANSWER" != "EXEC" ]; then
+    echo "Push aborted by pre-push hook."
+    exit 1
+  fi
 fi
 
-if [ "$ANSWER" != "EXEC" ]; then
-  echo "Push aborted by pre-push hook."
-  exit 1
-fi
-
+# Лёгкие проверки перед любым пушем
 npm run prepush
