@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+echo "You are about to push changes from aiflowlabs-exec (Exec domain frontend)."
+printf "Type EXEC to confirm push: "
+read ANSWER
+
+if [ "$ANSWER" != "EXEC" ]; then
+  echo "Push aborted by pre-push hook."
+  exit 1
+fi
+
+npm run prepush
