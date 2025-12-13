@@ -10,7 +10,7 @@
     "lint": "eslint",
     "type-check": "tsc -p tsconfig.json --noEmit",
     "test": "echo \"No tests yet\" && exit 0",
-    "prepare": "husky",
+    "prepare": "node -e \"process.env.CI ? process.exit(0) : process.exit(require('child_process').spawnSync('husky',{shell:true,stdio:'inherit'}).status)\"",
     "prepush": "npm run lint && npm run type-check"
   },
   "lint-staged": {
