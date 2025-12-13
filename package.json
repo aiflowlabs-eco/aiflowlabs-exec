@@ -5,7 +5,7 @@
   "description": "Executive AI Digest Platform by AIFlow Labs Studio",
   "scripts": {
     "dev": "next dev --webpack",
-    "build": "npx -y next@16.0.10 --version && next build --webpack",
+    "build": "node -e \"console.log('NEXT_VERSION', require('next/package.json').version)\" && next build --webpack",
     "start": "next start",
     "lint": "eslint",
     "type-check": "tsc -p tsconfig.json --noEmit",
