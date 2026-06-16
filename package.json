@@ -15,7 +15,7 @@
     "type-check": "tsc -p tsconfig.json --noEmit",
     "test": "echo \"No tests yet\" && exit 0",
     "prepare": "node -e \"process.env.CI ? process.exit(0) : process.exit(require('child_process').spawnSync('husky',{shell:true,stdio:'inherit'}).status)\"",
-    "prepush": "npm run lint && npm run type-check"
+    "prepush": "npm run lint && npm run type-check && npm run build"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
