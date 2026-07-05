@@ -2,38 +2,60 @@ import fs from "node:fs";
 import path from "node:path";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import SyntaxHighlighter from "react-syntax-highlighter/dist/esm/prism";
+import type { ComponentPropsWithoutRef, ReactNode } from "react";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 
 export const metadata = {
   title: "Stage 6 — Verification & Canonical Release Phase",
   description: "Checksum and Integrity Ledger for AI Digest Constitution v3.0",
 };
 
-function CodeBlock({
-  inline,
-  className,
-  children,
-}: {
+type CodeBlockProps = Readonly<{
   inline?: boolean;
   className?: string;
-  children?: React.ReactNode;
-}) {
+  children?: ReactNode;
+}>;
+
+type TableProps = Readonly<ComponentPropsWithoutRef<"table">>;
+type ThProps = Readonly<ComponentPropsWithoutRef<"th">>;
+type TdProps = Readonly<ComponentPropsWithoutRef<"td">>;
+
+function getCodeString(children: ReactNode) {
+  if (typeof children === "string") {
+    return children;
+  }
+
+  if (Array.isArray(children)) {
+    return children.join("");
+  }
+
+  return "";
+}
+
+function CodeBlock({ inline, className, children }: CodeBlockProps) {
   const match = /language-(\w+)/.exec(className || "");
   const language = match?.[1] || "";
   if (inline || !match) return <code className={className}>{children}</code>;
 
-  const code =
-    typeof children === "string"
-      ? children
-      : Array.isArray(children)
-        ? children.join("")
-        : "";
+  const code = getCodeString(children);
 
   return (
     <SyntaxHighlighter language={language} PreTag="div" wrapLongLines>
       {code.replace(/\n$/, "")}
     </SyntaxHighlighter>
   );
+}
+
+function Table(props: TableProps) {
+  return <table className="table-auto border-collapse w-full" {...props} />;
+}
+
+function Th(props: ThProps) {
+  return <th className="border px-2 py-1 text-left align-top" {...props} />;
+}
+
+function Td(props: TdProps) {
+  return <td className="border px-2 py-1 align-top" {...props} />;
 }
 
 export default function Stage6Page() {
@@ -52,15 +74,9 @@ export default function Stage6Page() {
         remarkPlugins={[remarkGfm]}
         components={{
           code: CodeBlock,
-          table: (props) => (
-            <table className="table-auto border-collapse w-full" {...props} />
-          ),
-          th: (props) => (
-            <th className="border px-2 py-1 text-left align-top" {...props} />
-          ),
-          td: (props) => (
-            <td className="border px-2 py-1 align-top" {...props} />
-          ),
+          table: Table,
+          th: Th,
+          td: Td,
         }}
       >
         {source}

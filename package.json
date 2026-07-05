@@ -3,15 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "description": "Executive AI Digest Platform by AIFlow Labs Studio",
+  "engines": {
+    "node": ">=24.4.0 <25.0.0",
+    "npm": ">=11.7.0 <12"
+  },
   "scripts": {
     "dev": "next dev --webpack",
     "build": "node -e \"console.log('NEXT_VERSION', require('next/package.json').version)\" && next build --webpack",
     "start": "next start",
-    "lint": "eslint",
+    "lint": "eslint .",
     "type-check": "tsc -p tsconfig.json --noEmit",
     "test": "echo \"No tests yet\" && exit 0",
     "prepare": "node -e \"process.env.CI ? process.exit(0) : process.exit(require('child_process').spawnSync('husky',{shell:true,stdio:'inherit'}).status)\"",
-    "prepush": "npm run lint && npm run type-check"
+    "prepush": "npm run lint && npm run type-check && npm run build"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -19,25 +23,25 @@
     ]
   },
   "dependencies": {
-    "next": "16.0.10",
-    "react": "19.2.0",
-    "react-dom": "19.2.0",
+    "next": "^16.2.9",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
     "react-markdown": "^10.1.0",
-    "react-syntax-highlighter": "^16.1.0",
+    "react-syntax-highlighter": "^16.1.1",
     "remark-gfm": "^4.0.1"
   },
   "devDependencies": {
-    "@next/eslint-plugin-next": "^16.0.10",
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
+    "@next/eslint-plugin-next": "^16.2.9",
+    "@tailwindcss/postcss": "^4.3.1",
+    "@types/node": "^20.19.43",
+    "@types/react": "^19.2.17",
     "@types/react-dom": "^19",
     "@types/react-syntax-highlighter": "^15.5.13",
-    "eslint": "^9",
-    "eslint-config-next": "^16.0.10",
+    "eslint": "^9.39.4",
+    "eslint-config-next": "^16.2.9",
     "husky": "^9.1.7",
-    "lint-staged": "^16.2.6",
-    "tailwindcss": "^4",
-    "typescript": "^5"
+    "lint-staged": "^16.4.0",
+    "tailwindcss": "^4.3.1",
+    "typescript": "^6.0.3"
   }
 }
