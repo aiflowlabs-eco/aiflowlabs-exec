@@ -4,8 +4,8 @@
   "private": true,
   "description": "Executive AI Digest Platform by AIFlow Labs Studio",
   "engines": {
-    "node": "24.4.0",
-    "npm": "11.7.0"
+    "node": ">=24.4.0 <25.0.0",
+    "npm": ">=11.7.0 <12"
   },
   "scripts": {
     "dev": "next dev --webpack",
